@@ -1,0 +1,220 @@
+<div id="fabringo-palettes">
+  <style>
+    #fabringo-palettes { font-family: 'Segoe UI', sans-serif; }
+    #fabringo-palettes .screen { --bg:#0A143D; --panel:#13275D; --ink:#F4FAFF; --gold:#FFD16A; --ball-text:#201536; display:grid; grid-template-columns:minmax(0,2.1fr) minmax(0,1fr); gap:12px; min-width:0; padding:8px; }
+    #fabringo-palettes .host, #fabringo-palettes .player { min-width:0; color:var(--ink); padding:15px; border-radius:22px; border:1px solid #497EFF; }
+    #fabringo-palettes .host { background:radial-gradient(ellipse at 30% 50%,#214EDF 0%,transparent 59%),radial-gradient(ellipse at 80% 104%,#5B2CB0 0%,transparent 55%),linear-gradient(155deg,#101C60,var(--bg) 60%); box-shadow:inset 0 0 20px #426EFF44; }
+    #fabringo-palettes .player { background:linear-gradient(160deg,#242078,#101841 45%); box-shadow:inset 0 0 15px #8656EF45; }
+    #fabringo-palettes .top { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:14px; }
+    #fabringo-palettes .role { font-size:16px; font-weight:800; }
+    #fabringo-palettes .host-title { color:var(--gold); font-size:clamp(22px,4vw,37px); font-weight:950; letter-spacing:.035em; line-height:1; text-shadow:0 2px #8E3C09,0 0 19px #FFAC6066; }
+    #fabringo-palettes .small { font-size:12px; color:#D5E2FF; }
+    #fabringo-palettes .arena { display:grid; grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr); align-items:center; gap:16px; }
+    #fabringo-palettes .hero { display:grid; justify-items:center; gap:9px; min-width:0; }
+    #fabringo-palettes .urn { width:min(100%,230px); position:relative; padding-top:9px; }
+    #fabringo-palettes .globe { position:relative; overflow:hidden; width:100%; aspect-ratio:1; border-radius:50%; border:2px solid #BADDFF; box-sizing:border-box; background:radial-gradient(ellipse at 24% 23%,#ADE1FF77,transparent 47%),radial-gradient(ellipse at 50% 105%,#974FAD,#172554 64%); box-shadow:inset -8px -9px 15px #050C37B0,inset 4px 4px 13px #ECF6FFC2,0 0 22px #66A6FFC0; }
+    #fabringo-palettes .globe::after { content:''; pointer-events:none; position:absolute; width:34%; height:15%; top:12%; left:13%; border-radius:50%; background:linear-gradient(180deg,#F5FEFFBB,transparent); transform:rotate(-32deg); }
+    #fabringo-palettes .urn-cap, #fabringo-palettes .urn-base { height:12px; position:absolute; z-index:1; border-radius:10px; border:1px solid #FBE1A6; background:linear-gradient(#FFF1AE,#DE9B30 52%,#7A3B12); box-shadow:0 0 13px #F8A74552; }
+    #fabringo-palettes .urn-cap { width:27%; top:1px; left:36.5%; }
+    #fabringo-palettes .urn-base { width:92%; bottom:0; left:4%; }
+    #fabringo-palettes .pellet { --pellet:#FC5993; position:absolute; left:var(--x); top:var(--y); width:17%; aspect-ratio:1; display:grid; place-items:center; border-radius:50%; font-size:clamp(7px,1.1vw,12px); font-weight:900; color:#171634; background:radial-gradient(circle at 33% 25%,#FFF8F2,var(--pellet) 36%,color-mix(in srgb,var(--pellet),#1E1740 59%) 92%); box-shadow:1px 2px 4px #1515519E; }
+    #fabringo-palettes .pellet span { display:grid; place-items:center; border-radius:50%; width:52%; aspect-ratio:1; background:#FFF8EF; }
+    #fabringo-palettes .mixing .urn { animation:fabringo-rattle 190ms ease-in-out 4 alternate; }
+    #fabringo-palettes .mixing .pellet { animation:fabringo-swirl var(--speed) ease-in-out 2 alternate; }
+    @keyframes fabringo-rattle { 0% { transform:rotate(-5deg) translateX(-3px); } 100% { transform:rotate(5deg) translateX(3px); } }
+    @keyframes fabringo-swirl { 0% { transform:translate(0,0); } 55% { transform:translate(var(--drift),var(--lift)) rotate(130deg); } 100% { transform:translate(var(--return),-4%) rotate(260deg); } }
+    #fabringo-palettes .ball { display:grid; align-content:center; justify-items:center; width:clamp(68px,12vw,110px); aspect-ratio:1; border:3px solid #FFF2AE; border-radius:50%; color:var(--ball-text); background:radial-gradient(circle at 38% 28%,#FFFDF4 10%,#FFE3AA 60%,#EB971E 95%); box-shadow:0 0 22px #FFBB4BC0,inset 0 -5px 11px #CA671F58; }
+    #fabringo-palettes .ball.reveal { animation:fabringo-reveal 320ms ease-out; }
+    @keyframes fabringo-reveal { 0% { transform:scale(.88); } 55% { transform:scale(1.08); } 100% { transform:scale(1); } }
+    #fabringo-palettes .ball b { font-size:clamp(30px,5vw,48px); line-height:1; }
+    #fabringo-palettes .ball span { font-size:clamp(20px,3vw,30px); line-height:1; font-weight:850; }
+    #fabringo-palettes .draw { min-height:44px; padding:6px 12px; color:#241437; background:linear-gradient(#FFF1AA,#FFBE46); border:1px solid #FFE7A0; border-radius:12px; box-shadow:0 0 18px #FFB1345C; font:inherit; font-weight:800; }
+    #fabringo-palettes .draw:disabled { background:#EAC580; }
+    #fabringo-palettes .board { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:4px; padding:6px; border-radius:14px; border:1px solid #5182EA; background:#081841E8; }
+    #fabringo-palettes .lane { display:grid; gap:2px; min-width:0; text-align:center; }
+    #fabringo-palettes .lane strong { color:white; background:linear-gradient(#FFFFFF2B,transparent),var(--lane); font-size:19px; line-height:32px; border-radius:8px; margin-bottom:4px; text-shadow:0 1px 2px #0009; }
+    #fabringo-palettes .lane:nth-child(1) { --lane:#B52340; }
+    #fabringo-palettes .lane:nth-child(2) { --lane:#A8540A; }
+    #fabringo-palettes .lane:nth-child(3) { --lane:#1259BE; }
+    #fabringo-palettes .lane:nth-child(4) { --lane:#30771B; }
+    #fabringo-palettes .lane:nth-child(5) { --lane:#8132B2; }
+    #fabringo-palettes .slot { color:var(--ink); background:var(--panel); border-radius:4px; font-size:13px; font-weight:650; font-variant-numeric:tabular-nums; line-height:23px; }
+    #fabringo-palettes .slot.called { opacity:.54; }
+    #fabringo-palettes .slot.current { box-shadow:inset 0 0 0 1px var(--gold); font-weight:800; }
+    #fabringo-palettes .card-stack { display:grid; gap:8px; }
+    #fabringo-palettes .ticket { --ticket:#AB2847; --rim:#FE658A; --paper:#FFF0EB; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:2px; padding:6px; background:linear-gradient(#FFFFFF28,transparent 28%),var(--ticket); color:#162538; border-radius:12px; border:1px solid var(--rim); box-shadow:0 0 13px color-mix(in srgb,var(--rim),transparent 70%); }
+    #fabringo-palettes .ticket.jade { --ticket:#246A39; --rim:#A4E77F; --paper:#F2F9E8; }
+    #fabringo-palettes .ticket.amber { --ticket:#9C4C0E; --rim:#FFBC6F; --paper:#FFF4DB; }
+    #fabringo-palettes .ticket strong { text-align:center; font-size:17px; color:#FFFFFF; line-height:24px; margin-bottom:3px; text-shadow:0 1px 2px #0008; }
+    #fabringo-palettes .cell { position:relative; display:grid; place-items:center; min-width:0; min-height:25px; padding:0; border:0; background:var(--paper); color:#162538; font-family:inherit; font-size:14px; font-weight:800; border-radius:4px; }
+    #fabringo-palettes .cell-number { position:relative; }
+    #fabringo-palettes .cell[aria-pressed="true"]::before { content:''; position:absolute; inset:3px; pointer-events:none; color:var(--ticket); opacity:.72; background:linear-gradient(to bottom right,transparent calc(50% - 1px),currentColor calc(50% - 1px),currentColor calc(50% + 1px),transparent calc(50% + 1px)),linear-gradient(to top right,transparent calc(50% - 1px),currentColor calc(50% - 1px),currentColor calc(50% + 1px),transparent calc(50% + 1px)); }
+    #fabringo-palettes .qr-trigger { width:100%; min-height:44px; padding:3px; border:0; background:#FFFFFF; }
+    #fabringo-palettes .qr-trigger img { display:block; width:min(34px,100%); image-rendering:pixelated; }
+    #fabringo-palettes .qr-dialog { box-sizing:border-box; width:min(calc(100% - 32px),330px); padding:19px; border:1px solid #41617C; border-radius:18px; background:#102941; color:#F4FAFF; text-align:center; }
+    #fabringo-palettes .qr-dialog::backdrop { background:#04111DC4; }
+    #fabringo-palettes .qr-dialog h2 { margin:0 0 12px; font-size:18px; }
+    #fabringo-palettes .qr-large { display:block; width:min(100%,248px); margin:0 auto 14px; border-radius:5px; image-rendering:pixelated; }
+    #fabringo-palettes .qr-close { min-height:44px; padding:6px 20px; border:0; border-radius:10px; background:#7BE3D4; color:#102941; font:inherit; font-weight:700; }
+    @media (max-width:720px) { #fabringo-palettes .screen { grid-template-columns:1fr; } }
+    @media (max-width:480px) { #fabringo-palettes .host, #fabringo-palettes .player { padding:10px; } #fabringo-palettes .arena { grid-template-columns:1fr; } #fabringo-palettes .hero { grid-template-columns:minmax(0,1fr) minmax(0,1fr); } #fabringo-palettes .urn { grid-row:span 3; width:min(100%,155px); align-self:center; } }
+    @media (pointer:coarse) { #fabringo-palettes .cell { min-height:44px; } }
+    @media (prefers-reduced-motion:reduce) { #fabringo-palettes .mixing .urn, #fabringo-palettes .mixing .pellet, #fabringo-palettes .ball.reveal { animation:none; } }
+  </style>
+  <div class="viz-dotted-background">
+    <div class="screen">
+      <section class="host" aria-label="Anfitrión">
+        <header class="top"><strong class="role">Anfitrión</strong><span class="host-title">Fabringo</span><span class="small">75 bolas</span></header>
+        <div class="arena">
+          <div class="hero">
+            <div class="urn" aria-hidden="true"><div class="urn-cap"></div><div class="globe"></div><div class="urn-base"></div></div>
+            <div class="ball" aria-live="polite" aria-atomic="true"><span>N</span><b>39</b></div>
+            <span class="small draw-progress">8 de 75</span>
+            <button type="button" class="draw cursor-interaction">Bola siguiente</button>
+          </div>
+          <div class="board" aria-label="Tablero de números"></div>
+        </div>
+      </section>
+      <section class="player" aria-label="Jugador">
+        <header class="top"><strong class="role">Jugador</strong><span class="small">Cartillas</span></header>
+        <div class="card-stack"></div>
+      </section>
+    </div>
+  </div>
+  <dialog class="qr-dialog" aria-labelledby="fabringo-qr-title">
+    <h2 id="fabringo-qr-title">QR de la cartilla</h2>
+    <img class="qr-large" alt="Código QR de la cartilla">
+    <form method="dialog"><button class="qr-close cursor-interaction" autofocus>Cerrar</button></form>
+  </dialog>
+  <script type="application/json" id="fabringo-qr-images">
+{"coral":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAAEIAQAAAACLjVdSAAABV0lEQVR4nO1Zwa7DMAjD0f7/l/0ETtrmtNMYe4RVURIhDXmAcQfaGxvvHOx47Hbw2O3g8X/xePkC7elbgvtNQzwsmiocBQYWXDdN8TAhQdD8uW8KRTq+4gH+SqQJHqDXDD78Lb9QL9SKKJY4sDMe0AEil6uHJMYxinhg6xcIQHAnR6FIR54H5sfEt4trUS/SnHqh6BX+GAOSO2+qRDoyPThLh7GL9gFnm3qRpngA5GIXFU4kCOtFmtQ/3KDUEOOqfspFmuPB2HJiwBjar+tSkSbpW2o2NWdaz40lcvvpW0xyXYQCZclFu3UiHSkeRnorlbw17RfVxpmN51NM+aIhtSW/vOzxNoxiWiHDxnqOviAaByJJ7nbaU+9jKhc+3pClxjFq4SGjJN2ueRvjAcmYNZ0KmJZ4UCuWvJWaa9s/oAO8nz4GtIb5gfN/dsnfZRyPzQ4eu1XB4w8ADYoNMLDHfgAAAABJRU5ErkJggg==","jade":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAAEIAQAAAACLjVdSAAABRklEQVR4nO1YS67EIAyL0dz/yn7Kry2zmV0avZC2CFAWlhWMU1B+xPqVICdjj8PHHoeP/8vHRwf4nALqlI+dkXyIiSqUDuVE39gZyofAOKEQzkTuNEK6XsiAcYDXcTTJgMnH+zjePy/0Efq5eHAyH7jrA3RVLcaxmmTg26/jroxKHKtTBuIR3IKqq35IazJoU7ol0wpxQsbet7BzAxdUqxJnph/SIv2A3StQIY09LxKOrQ+mikgykQa1FdIq/SCEatj9wOi1ey1aIa05L7CDghRWrRC2Q7qK9UNybW841bH1IRZ89jDGzGh/ipTSuGA4/P8YLw9iVEz0Yx8bU0QghDmzy4cM7fcRDoShp9H8j+Vj/wvCp650QbrqM5C1AVBb3bl+TMJ6iPf7zwKZyIdY8GrpfMPng/1Ha6TrZGxx+Njj8LFHDR9/76p7HAV8HOEAAAAASUVORK5CYII=","amber":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAAEIAQAAAACLjVdSAAABXElEQVR4nO1Y0XLDMAhDvv3/L2uHhZP6YdeXlbBh2jp2qgdZh0EJaG9ivAPYQexx9Njj6PF/9fjyAZrTJ/Qlrzst9bBZVBEz+HDf6aiHrcQwF4PQnKWYjicQjM/TPJ7OjxV4SYzOejAu0O++01MPXGtC9QPWWA+uFeZqPzEd/QclBOfFW8zqvYWYjkwEZ5s1ajSQVZl+GAFtfGYIfZT1mLmh/6owHXkILNcB0rA0QWN/aquzmOuyddwqTEcqArF/+iFRGQFKMs1CwPd/Z8eqLAWZ/hS/+TxHbR9+YtRwZznp22/N80OdRSkyFanHNMufMuypqsidMR39BzRnlFVcTqQS05GIoIeFD7m/ff0HXh0pVD/iwFRhOh5AEFTXdQsST3k1maYhqFNylY+6TD95XhgjZzHV+6B4UVaF6UhEwMNUOOLtOpZBrcU06Xn/DzAdB7HF0WOPo8ceOXp8AxOQgRQSY7dWAAAAAElFTkSuQmCC"}
+  </script>
+  <script>
+    (() => {
+      const root = document.getElementById('fabringo-palettes');
+      const dialog = root.querySelector('.qr-dialog');
+      const qrTitle = dialog.querySelector('h2');
+      const enlargedQr = dialog.querySelector('.qr-large');
+      const qrImages = JSON.parse(root.querySelector('#fabringo-qr-images').textContent);
+      const letters = [...'BINGO'];
+      const called = new Set([7, 18, 22, 34, 39, 49, 58, 67]);
+      const cards = [
+        ['Coral', 'coral', [2,18,33,48,61,7,22,39,49,67,10,24,0,52,70,11,27,41,58,72,15,29,45,60,74]],
+        ['Jade', 'jade', [1,19,32,46,62,4,21,34,50,65,8,22,0,53,67,12,26,42,54,71,14,30,44,59,75]],
+        ['Ámbar', 'amber', [3,16,34,47,63,5,18,38,51,66,7,25,0,55,68,9,27,40,57,69,13,28,43,58,73]]
+      ];
+      const host = root.querySelector('.host');
+      const board = host.querySelector('.board');
+      const ball = host.querySelector('.ball');
+      const globe = host.querySelector('.globe');
+      const progress = host.querySelector('.draw-progress');
+      const nextButton = host.querySelector('.draw');
+      const slots = new Map();
+      let current = 39;
+
+      letters.forEach((letter, column) => {
+        const lane = document.createElement('div');
+        lane.className = 'lane';
+        const label = document.createElement('strong');
+        label.textContent = letter;
+        lane.append(label);
+        for (let offset = 1; offset <= 15; offset += 1) {
+          const number = column * 15 + offset;
+          const cell = document.createElement('span');
+          cell.className = called.has(number) ? 'slot called' : 'slot pending';
+          cell.classList.toggle('current', number === current);
+          cell.textContent = number;
+          slots.set(number, cell);
+          lane.append(cell);
+        }
+        board.append(lane);
+      });
+
+      const pelletColors = ['#FF5A7C', '#FFC54A', '#50CFFF', '#80DF72', '#B88BFF'];
+      const positions = [[13,42],[25,38],[38,41],[52,36],[66,40],[76,51],[7,55],[20,53],[34,54],[48,50],[61,53],[72,61],[16,66],[29,68],[42,63],[55,66],[66,72],[25,78],[39,79],[53,80]];
+      positions.forEach(([x, y], index) => {
+        const pellet = document.createElement('div');
+        pellet.className = 'pellet';
+        pellet.style.setProperty('--x', `${x}%`);
+        pellet.style.setProperty('--y', `${y}%`);
+        pellet.style.setProperty('--pellet', pelletColors[(index + Math.floor(index / 5)) % pelletColors.length]);
+        pellet.style.setProperty('--drift', index % 2 ? '-38%' : '45%');
+        pellet.style.setProperty('--return', index % 2 ? '14%' : '-22%');
+        pellet.style.setProperty('--lift', `-${65 + (index % 5) * 29}%`);
+        pellet.style.setProperty('--speed', `${280 + (index % 4) * 29}ms`);
+        const number = document.createElement('span');
+        number.textContent = (index * 7 + 2) % 75 + 1;
+        pellet.append(number);
+        globe.append(pellet);
+      });
+
+      nextButton.addEventListener('click', () => {
+        if (nextButton.disabled) return;
+        const remaining = [...slots.keys()].filter(number => !called.has(number));
+        nextButton.disabled = true;
+        nextButton.textContent = 'Mezclando…';
+        host.classList.add('mixing');
+        ball.classList.remove('reveal');
+        const delay = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 800;
+        setTimeout(() => {
+          slots.get(current).classList.remove('current');
+          current = remaining[Math.floor(Math.random() * remaining.length)];
+          called.add(current);
+          const selected = slots.get(current);
+          selected.classList.remove('pending');
+          selected.classList.add('called', 'current');
+          ball.querySelector('span').textContent = letters[Math.floor((current - 1) / 15)];
+          ball.querySelector('b').textContent = current;
+          ball.classList.add('reveal');
+          progress.textContent = `${called.size} de 75`;
+          host.classList.remove('mixing');
+          nextButton.disabled = called.size === 75;
+          nextButton.textContent = nextButton.disabled ? 'Sorteo completo' : 'Bola siguiente';
+        }, delay);
+      });
+
+      const stack = root.querySelector('.card-stack');
+      cards.forEach(([label, theme, numbers]) => {
+        const card = document.createElement('div');
+        card.className = `ticket ${theme}`;
+        card.setAttribute('role', 'group');
+        card.setAttribute('aria-label', `Cartilla ${label}`);
+        letters.forEach((letter) => {
+          const header = document.createElement('strong');
+          header.textContent = letter;
+          card.append(header);
+        });
+        numbers.forEach((number) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'cell cursor-interaction';
+          if (number === 0) {
+            button.classList.add('qr-trigger');
+            button.setAttribute('aria-label', `Ampliar QR de la cartilla ${label.toLowerCase()}`);
+            button.setAttribute('aria-haspopup', 'dialog');
+            const image = document.createElement('img');
+            image.src = qrImages[theme];
+            image.alt = '';
+            button.append(image);
+            button.addEventListener('click', () => {
+              qrTitle.textContent = `QR de la cartilla ${label.toLowerCase()}`;
+              enlargedQr.src = qrImages[theme];
+              dialog.showModal();
+            });
+          } else {
+            button.setAttribute('aria-pressed', 'false');
+            const value = document.createElement('span');
+            value.className = 'cell-number';
+            value.textContent = number;
+            button.append(value);
+            button.addEventListener('click', () => {
+              button.setAttribute('aria-pressed', String(button.getAttribute('aria-pressed') !== 'true'));
+            });
+          }
+          card.append(button);
+        });
+        stack.append(card);
+      });
+    })();
+  </script>
+</div>

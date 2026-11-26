@@ -1,0 +1,16 @@
+Locuciones sintetizadas para Fabringo con Piper.
+
+Voz femenina Daniela. Modelo es_AR-daniela-high, entrenado por larcanio.
+https://huggingface.co/rhasspy/piper-voices/blob/main/es/es_AR/daniela/high/MODEL_CARD
+Datos de origen OpenSLR 61, CC BY-SA 4.0.
+https://www.openslr.org/61/
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Voz masculina Ald. Modelo es_MX-ald-medium.
+https://huggingface.co/rhasspy/piper-voices/blob/main/es/es_MX/ald/medium/MODEL_CARD
+Datos de origen Ald Mexican Spanish Speech Dataset, Unlicense.
+https://huggingface.co/datasets/rmcpantoja/Ald_Mexican_Spanish_speech_dataset
+https://unlicense.org/
+
+Los modelos y el motor de síntesis se usan durante la generación de los archivos.
+La aplicación distribuye los anuncios Ogg ya generados.
